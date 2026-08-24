@@ -8,14 +8,20 @@ class OperacionesMatriciales:
         self._resultado_mat_vec = None
         self._resultado_inversa = None
     def sumar_matrices(self):
-        filas = len(self.matriz_a)
-        columnas = len(self.matriz_a[0])
-        matriz_res = [[0.0 for _ in range(columnas)] for _ in range(filas)]
-
-        for i in range(filas):
-            for j in range(columnas):
+        if not self.matriz_a or not self.matriz_b:
+            self._resultado_suma = "Error: Matrices vacías."
+            return
+        filas_a = len(self.matriz_a)
+        columnas_a = len(self.matriz_a[0])
+        filas_b = len(self.matriz_b)
+        columnas_b = len(self.matriz_b[0])
+        if filas_a != filas_b or columnas_a != columnas_b:
+            self._resultado_suma = "Error: Las dimensiones de las matrices deben ser idénticas para sumarlas."
+            return
+        matriz_res = [[0.0 for _ in range(columnas_a)] for _ in range(filas_a)]
+        for i in range(filas_a):
+            for j in range(columnas_a):
                 matriz_res[i][j] = self.matriz_a[i][j] + self.matriz_b[i][j]
-            
         self._resultado_suma = matriz_res
     def multiplicar_matrices(self):
         filas_a = len(self.matriz_a)
@@ -65,7 +71,7 @@ class OperacionesMatriciales:
                 if k != i:
                     factor = aumentada[k][i]
                     for j in range(2 * n):
-                        aumentada[k][j] -= factor * aumentada[i][j]
+                        aumentada[k][j] -= factor * aumentada[i][j]     
         inversa = [aumentada[i][n:] for i in range(n)]
         self._resultado_inversa = inversa
     def get_resultado_suma(self):
